@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#090909"><title>JURU VVIP • Football Intelligence</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#" aria-label="JURU VVIP home"><span class="brand-mark">J</span><span>JURU <b>VVIP</b><small>FOOTBALL INTELLIGENCE</small></span></a>
+  <div class="top-actions"><span class="live-dot"></span><span id="apiState">CONNECTING</span><button class="icon-btn" id="profileOpen" aria-label="Profile">◉</button></div>
+</header>
+<main class="shell">
+  <section class="hero panel">
+    <div class="hero-copy"><span class="eyebrow">MATCHDAY • DATA-POWERED</span><h1>BET SMARTER.<br><em>READ THE GAME.</em></h1><p>Fixtures, live action and match insights in one place.</p><div class="hero-actions"><button class="btn gold" data-page="daily">Explore picks <span>↗</span></button><button class="btn ghost" data-page="live">Live centre</button></div></div>
+    <div class="hero-stat"><div class="trophy">♜</div><div><strong id="todayCount">—</strong><span>FIXTURES TODAY</span></div><div class="hero-line"></div><div><strong id="liveCount">—</strong><span>LIVE NOW</span></div></div>
+  </section>
+  <section class="stats-grid">
+    <article class="stat-card"><span>● TODAY'S MATCHES</span><strong id="statMatches">—</strong><small>From API-Football</small></article>
+    <article class="stat-card"><span>◉ LIVE MATCHES</span><strong id="statLive">—</strong><small>Live score feed</small></article>
+    <article class="stat-card"><span>♛ SAVED PICKS</span><strong id="statSaved">0</strong><small>On this device</small></article>
+    <article class="stat-card"><span>◷ API STATUS</span><strong id="statApi">—</strong><small id="apiQuota">Waiting for connection</small></article>
+  </section>
+
+  <section class="page active" id="page-home">
+    <div class="section-head"><div><span class="eyebrow">YOUR MATCHDAY HUB</span><h2>Explore JURU</h2></div><span class="date-pill" id="todayDate"></span></div>
+    <div class="feature-grid">
+      <button class="feature cyan" data-page="daily"><span class="feature-icon">♜</span><b>DAILY PICKS</b><small>Today's fixtures and match insights</small><i>›</i></button>
+      <button class="feature gold-card" data-page="vip"><span class="feature-icon">♛</span><b>VIP SLIP</b><small>Curated selections and saved slips</small><i>›</i></button>
+      <button class="feature cyan" data-page="ultimate"><span class="feature-icon">✦</span><b>ULTIMATE</b><small>Deeper fixture analysis and H2H</small><i>›</i></button>
+      <button class="feature gold-card" data-page="live"><span class="feature-icon">⌁</span><b>LIVE TRACKER</b><small>Real-time scores and match status</small><i>›</i><span class="live-tag">LIVE</span></button>
+      <button class="feature gold-card" data-page="tomorrow"><span class="feature-icon">▦</span><b>TOMORROW</b><small>Preview upcoming fixtures</small><i>›</i></button>
+      <button class="feature cyan" data-page="stats"><span class="feature-icon">▥</span><b>STATS DASHBOARD</b><small>League tables and match numbers</small><i>›</i></button>
+    </div>
+    <div class="section-head compact"><div><span class="eyebrow">ON THE PITCH</span><h2>Live right now</h2></div><button class="text-btn" data-page="live">View all →</button></div>
+    <div id="homeLive" class="match-list"><div class="empty">Loading live fixtures…</div></div>
+  </section>
+
+  <section class="page" id="page-daily">
+    <div class="section-head"><div><span class="eyebrow">DAILY MATCH CENTRE</span><h2>Today's fixtures</h2></div><span class="pill">API DATA</span></div>
+    <div class="toolbar"><input id="matchSearch" placeholder="Search team or league…" aria-label="Search matches"><button class="btn ghost small" id="refreshBtn">↻ Refresh</button></div>
+    <div class="segmented"><button class="selected" data-filter="all">All matches</button><button data-filter="NS">Not started</button><button data-filter="live">Live</button><button data-filter="FT">Finished</button></div>
+    <div id="dailyMatches" class="match-list"><div class="empty">Loading fixtures…</div></div>
+  </section>
+
+  <section class="page" id="page-vip">
+    <div class="section-head"><div><span class="eyebrow">MEMBERS AREA</span><h2>VIP slip room</h2></div><span class="pill gold-pill">VIP</span></div>
+    <div class="vip-banner"><span class="crown">♛</span><h3>Your VIP workspace</h3><p>Build a slip from real fixtures. Predictions are not guaranteed; always check team news and bookmaker prices before staking.</p></div>
+    <div class="section-head compact"><div><h3>Saved selections</h3><small>Your saved picks on this device</small></div><button class="text-btn" id="clearPicks">Clear all</button></div>
+    <div id="savedPicks" class="match-list"><div class="empty">No saved selections yet. Add a fixture from Daily Picks.</div></div>
+  </section>
+
+  <section class="page" id="page-ultimate">
+    <div class="section-head"><div><span class="eyebrow">DEEPER MATCH INSIGHT</span><h2>Ultimate analysis</h2></div><span class="pill">MATCH DATA</span></div>
+    <div class="analysis-search panel"><label for="analysisFixture">Fixture ID</label><div class="toolbar"><input id="analysisFixture" inputmode="numeric" placeholder="Enter a fixture ID"><button class="btn gold small" id="analyseBtn">Analyse</button></div><small>Choose a fixture from Daily Picks and use its fixture ID.</small></div>
+    <div id="analysisResult" class="panel analysis-result"><div class="empty">Select a match to view API prediction data and available insights.</div></div>
+  </section>
+
+  <section class="page" id="page-live">
+    <div class="section-head"><div><span class="eyebrow">LIVE CENTRE</span><h2>Live tracker</h2></div><span class="live-tag">● LIVE</span></div>
+    <p class="muted">Live fixture refreshes every 60 seconds while this page is open. Actual update speed depends on your API plan.</p>
+    <div id="liveMatches" class="match-list"><div class="empty">Checking live matches…</div></div>
+  </section>
+
+  <section class="page" id="page-tomorrow">
+    <div class="section-head"><div><span class="eyebrow">NEXT MATCHDAY</span><h2>Tomorrow's preview</h2></div></div>
+    <div id="tomorrowMatches" class="match-list"><div class="empty">Loading tomorrow's fixtures…</div></div>
+  </section>
+
+  <section class="page" id="page-stats">
+    <div class="section-head"><div><span class="eyebrow">COMPETITION DATA</span><h2>Stats dashboard</h2></div></div>
+    <div class="panel analysis-search"><label for="leagueId">League ID</label><div class="toolbar"><input id="leagueId" inputmode="numeric" placeholder="Example: 39 (Premier League)"><input id="seasonYear" inputmode="numeric" placeholder="Season e.g. 2026"><button class="btn gold small" id="standingsBtn">Load</button></div></div>
+    <div id="standingsResult" class="panel"><div class="empty">Enter a league ID and season to load standings.</div></div>
+  </section>
+
+  <section class="page" id="page-more">
+    <div class="section-head"><div><span class="eyebrow">ACCOUNT & TOOLS</span><h2>More</h2></div></div>
+    <div class="menu-grid">
+      <button class="menu-item" data-page="stats">▥ <span>Stats dashboard</span>›</button>
+      <button class="menu-item" data-page="vip">♛ <span>VIP membership</span>›</button>
+      <button class="menu-item" data-page="live">⌁ <span>Live tracker</span>›</button>
+      <button class="menu-item" data-page="account">✚ <span>Join / Member login</span>›</button>
+      <button class="menu-item" data-page="profile">◉ <span>My profile</span>›</button>
+      <button class="menu-item" data-page="admin">♜ <span>Admin tools</span>›</button>
+      <button class="menu-item" data-page="master">♛ <span>MASTER Control</span>›</button>
+    </div>
+    <div class="panel disclaimer"><b>Responsible play</b><p>JURU VVIP provides football information and analytical tools, not guaranteed outcomes. Never stake money you cannot afford to lose. Match data and odds availability depend on your API subscription.</p></div>
+  </section>
+
+  <section class="page" id="page-profile">
+    <div class="section-head"><div><span class="eyebrow">YOUR ACCOUNT</span><h2>My profile</h2></div></div>
+    <div class="panel profile-card"><div class="avatar">J</div><div><h3 id="profileName">JURU Member</h3><p id="profileEmail">Local profile · this device</p><span class="pill gold-pill">MEMBER</span></div></div>
+    <div class="panel profile-form"><label>Display name<input id="nameInput" placeholder="Your name"></label><label>Email (optional)<input id="emailInput" type="email" placeholder="you@example.com"></label><button class="btn gold" id="saveProfile">Save profile</button></div>
+  </section>
+
+  <section class="page" id="page-account">
+    <div class="section-head"><div><span class="eyebrow">JURU MEMBERSHIP</span><h2>Join the VVIP club</h2></div><span class="pill gold-pill">MEMBERS</span></div>
+    <div class="panel member-welcome"><h3>Register or sign in</h3><p>New accounts are reviewed by the JURU admin. Your membership becomes active after approval.</p><a id="contactAdmin" class="btn bright" href="#" target="_blank" rel="noopener">Contact admin on WhatsApp</a></div>
+    <div class="panel profile-form"><h3>Create your account</h3><label>Full name<input id="regName" autocomplete="name" placeholder="Your full name"></label><label>Email address<input id="regEmail" type="email" autocomplete="email" placeholder="you@example.com"></label><label>Password<input id="regPassword" type="password" autocomplete="new-password" placeholder="At least 8 characters"></label><button class="btn bright" id="registerBtn">Submit registration</button><p id="registerMessage" class="muted"></p></div>
+    <div class="panel profile-form"><h3>Member sign in</h3><label>Email address<input id="loginEmail" type="email" autocomplete="username" placeholder="you@example.com"></label><label>Password<input id="loginPassword" type="password" autocomplete="current-password" placeholder="Your password"></label><button class="btn gold" id="memberLoginBtn">Sign in</button><p id="memberMessage" class="muted"></p><button class="btn ghost" id="memberLogout">Sign out</button></div>
+  </section>
+  <section class="page" id="page-admin">
+    <div class="section-head"><div><span class="eyebrow">OWNER WORKSPACE</span><h2>Admin approval centre</h2></div><span class="pill gold-pill">PRIVATE</span></div>
+    <div class="panel profile-form"><h3>Admin secure login</h3><p class="muted">Only the owner can review registrations and activate memberships.</p><label>Admin password<input id="adminPin" type="password" autocomplete="current-password" placeholder="Admin password"></label><button class="btn bright" id="adminUnlock">Unlock admin</button><p id="adminMessage" class="muted"></p></div>
+    <div class="panel profile-form" id="adminDashboard" hidden><div class="admin-head"><h3>New member requests</h3><button class="btn ghost small" id="reloadMembers">Refresh</button></div><div id="memberQueue" class="member-queue"><div class="empty">Log in to view registrations.</div></div></div>
+  </section>
+  <section class="page" id="page-master">
+    <div class="section-head"><div><span class="eyebrow">OWNER CONSOLE</span><h2>MASTER Control</h2></div><span class="pill gold-pill">OWNER</span></div>
+    <div class="panel"><h3>Service connection</h3><p id="masterStatus" class="muted">Checking server configuration…</p><button class="btn ghost" id="testApi">Test API connection</button><p class="muted">Set <code>API_FOOTBALL_KEY</code> in Render → Environment. Never paste your private key into this page.</p></div>
+  </section>
+</main>
+
+<nav class="bottom-nav">
+  <button class="nav-item active" data-page="home"><span>⌂</span>Home</button>
+  <button class="nav-item" data-page="daily"><span>♜</span>Daily</button>
+  <button class="nav-item" data-page="vip"><span>♛</span>VIP</button>
+  <button class="nav-item" data-page="ultimate"><span>✦</span>Ultimate</button>
+  <button class="nav-item" data-page="more"><span>☰</span>More</button>
+</nav>
+<div id="toast" class="toast" role="status"></div>
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const state={fixtures:[],live:[],filter:'all',picks:JSON.parse(localStorage.getItem('juruPicks')||'[]'),profile:JSON.parse(localStorage.getItem('juruProfile')||'{}')};
+const today=()=>new Date().toISOString().slice(0,10), tomorrow=()=>{let d=new Date();d.setDate(d.getDate()+1);return d.toISOString().slice(0,10)};
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function toast(s){const t=$('#toast');t.textContent=s;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600)}
+function page(name){$$('.page').forEach(p=>p.classList.toggle('active',p.id==='page-'+name));$$('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.page===name));if(name==='vip')renderPicks();if(name==='profile')loadProfile();window.scrollTo({top:0,behavior:'smooth'})}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-page]');if(b)page(b.dataset.page)});
+function dateLabel(s){return new Date(s).toLocaleString([], {day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}
+function statusLabel(f){const s=f.fixture?.status?.short||'';if(['1H','2H','HT','ET','P','LIVE','BT'].includes(s))return 'LIVE';if(['FT','AET','PEN'].includes(s))return 'FINISHED';return f.fixture?.status?.long||'SCHEDULED'}
+async function api(path,params={}){const q=new URLSearchParams(params);const r=await fetch('/api/'+path+(q.toString()?'?'+q:''));const j=await r.json();if(!r.ok)throw new Error(j.message||j.error||'API request failed');return j}
+function fixtureCard(f){const id=f.fixture?.id,home=f.teams?.home||{},away=f.teams?.away||{},go=f.goals||{},live=statusLabel(f)==='LIVE',done=statusLabel(f)==='FINISHED';return `<article class="match-card"><div class="match-top"><span class="league">♛ ${esc(f.league?.country||'Football')} · ${esc(f.league?.name||'Competition')}</span><span class="status ${live?'live':''}">${live?'● LIVE':esc(statusLabel(f))}</span></div><div class="teams"><div class="team-names"><div class="team-row">${home.logo?`<img src="${esc(home.logo)}" loading="lazy">`:''}<span>${esc(home.name||'Home')}</span></div><div class="team-row">${away.logo?`<img src="${esc(away.logo)}" loading="lazy">`:''}<span>${esc(away.name||'Away')}</span></div></div><div class="score">${go.home??'–'}<br>${go.away??'–'}</div></div><div class="match-foot"><span class="muted-small">${dateLabel(f.fixture?.date||new Date())} · ID ${id??'—'}</span><button class="save-btn" data-save="${id}">＋ Save / Analyse</button></div></article>`}
+function renderFixtures(target,items){$(target).innerHTML=items.length?items.map(fixtureCard).join(''):'<div class="empty">No fixtures returned for this date/filter. Try another date or refresh.</div>'}
+async function loadFixtures(){try{const j=await api('fixtures',{date:today(),timezone:'Africa/Harare'});state.fixtures=j.response||[];$('#todayCount').textContent=state.fixtures.length;$('#statMatches').textContent=state.fixtures.length;renderDaily();renderFixtures('#homeLive',state.fixtures.filter(f=>statusLabel(f)==='LIVE').slice(0,3));if(!state.fixtures.some(f=>statusLabel(f)==='LIVE'))$('#homeLive').innerHTML='<div class="empty">No live matches at the moment. Open Daily for today&#39;s schedule.</div>';$('#apiState').textContent='API CONNECTED';$('#statApi').textContent='ONLINE';$('#apiQuota').textContent='Live data received';}catch(e){apiError(e)}}
+function renderDaily(){const term=($('#matchSearch')?.value||'').toLowerCase();let a=state.fixtures.filter(f=>`${f.teams?.home?.name} ${f.teams?.away?.name} ${f.league?.name}`.toLowerCase().includes(term));if(state.filter==='live')a=a.filter(f=>statusLabel(f)==='LIVE');else if(state.filter==='NS')a=a.filter(f=>statusLabel(f)!=='LIVE'&&statusLabel(f)!=='FINISHED');else if(state.filter==='FT')a=a.filter(f=>statusLabel(f)==='FINISHED');renderFixtures('#dailyMatches',a)}
+async function loadLive(){try{const j=await api('fixtures',{live:'all',timezone:'Africa/Harare'});state.live=j.response||[];$('#liveCount').textContent=state.live.length;$('#statLive').textContent=state.live.length;renderFixtures('#liveMatches',state.live);renderFixtures('#homeLive',state.live.slice(0,3));}catch(e){$('#liveMatches').innerHTML=`<div class="empty">${esc(e.message)}</div>`}}
+async function loadTomorrow(){try{const j=await api('fixtures',{date:tomorrow(),timezone:'Africa/Harare'});renderFixtures('#tomorrowMatches',j.response||[])}catch(e){$('#tomorrowMatches').innerHTML=`<div class="empty">${esc(e.message)}</div>`}}
+function savePick(id){const f=[...state.fixtures,...state.live].find(x=>String(x.fixture?.id)===String(id));if(!f){toast('Fixture not found. Refresh and try again.');return}if(state.picks.some(p=>p.fixture?.id===f.fixture?.id)){toast('Already saved');return}state.picks.unshift(f);localStorage.setItem('juruPicks',JSON.stringify(state.picks));renderPicks();$('#statSaved').textContent=state.picks.length;toast('Selection saved to your device');}
+function renderPicks(){const el=$('#savedPicks');$('#statSaved').textContent=state.picks.length;el.innerHTML=state.picks.length?state.picks.map(f=>fixtureCard(f).replace('data-save=','data-remove=')).join(''):'<div class="empty">No saved selections yet. Add a fixture from Daily Picks.</div>'}
+document.addEventListener('click',e=>{const s=e.target.closest('[data-save]');if(s)savePick(s.dataset.save);const r=e.target.closest('[data-remove]');if(r){state.picks=state.picks.filter(p=>String(p.fixture?.id)!==r.dataset.remove);localStorage.setItem('juruPicks',JSON.stringify(state.picks));renderPicks();toast('Removed from saved picks')}});
+async function analyse(){const id=$('#analysisFixture').value.trim();if(!/^\d+$/.test(id)){toast('Enter a valid fixture ID');return}$('#analysisResult').innerHTML='<div class="empty">Loading fixture analysis…</div>';try{const [pj,oj]=await Promise.all([api('predictions',{fixture:id}),api('odds',{fixture:id}).catch(()=>({response:[]}))]);const p=pj.response?.[0];if(!p){$('#analysisResult').innerHTML='<div class="empty">No prediction data available for this fixture on your API plan.</div>';return}const h=p.teams?.home?.name||'Home',a=p.teams?.away?.name||'Away',pred=p.predictions||{},win=pred.winner?.name||'No clear winner';const books=(oj.response||[]).slice(0,2).map(x=>`<div class="data-row"><span>${esc(x.bookmakers?.[0]?.name||'Bookmaker')}</span><b>${esc((x.bookmakers?.[0]?.bets||[]).slice(0,2).map(b=>b.name+': '+(b.values||[]).slice(0,3).map(v=>v.value+' '+v.odd).join(' / ')).join(' · ')||'Odds unavailable')}</b></div>`).join('');$('#analysisResult').innerHTML=`<h3>${esc(h)} vs ${esc(a)}</h3><div class="data-row"><span>API prediction</span><b>${esc(win)}</b></div><div class="data-row"><span>Advice</span><b>${esc(pred.advice||'Not provided')}</b></div><div class="data-row"><span>Winner comment</span><b>${esc(pred.winner?.comment||'—')}</b></div><div class="data-row"><span>Home form</span><b>${esc(p.teams?.home?.league?.form||'—')}</b></div><div class="data-row"><span>Away form</span><b>${esc(p.teams?.away?.league?.form||'—')}</b></div><h3>Available bookmaker odds</h3>${books||'<div class="empty">No odds returned for this fixture. Coverage depends on competition, bookmaker and subscription.</div>'}<p class="muted">Provider-generated prediction and odds data only; not a guarantee of the result.</p>`}catch(e){$('#analysisResult').innerHTML=`<div class="empty">${esc(e.message)}</div>`}}
+async function standings(){const league=$('#leagueId').value.trim(),season=$('#seasonYear').value.trim();if(!league||!season){toast('Enter league ID and season');return}$('#standingsResult').innerHTML='<div class="empty">Loading standings…</div>';try{const j=await api('standings',{league,season});const groups=j.response?.[0]?.league?.standings||[];const rows=groups.flat();$('#standingsResult').innerHTML=rows.length?`<h3>${esc(j.response[0].league.name)} standings</h3>`+rows.map(t=>`<div class="data-row"><span>${t.rank}. ${esc(t.team.name)}</span><b>${t.points} pts · GD ${t.goalsDiff}</b></div>`).join(''):'<div class="empty">No standings returned. Check league ID, season and API plan.</div>'}catch(e){$('#standingsResult').innerHTML=`<div class="empty">${esc(e.message)}</div>`}}
+function apiError(e){$('#apiState').textContent='API ISSUE';$('#statApi').textContent='CHECK KEY';$('#apiQuota').textContent=e.message;$('#dailyMatches').innerHTML=`<div class="empty">Could not load football data.<br>${esc(e.message)}<br><br>Check Render environment variable API_FOOTBALL_KEY and redeploy.</div>`;$('#homeLive').innerHTML='<div class="empty">API data unavailable. Check server configuration.</div>'}
+async function checkStatus(){try{const s=await api('status');const account=s.response?.account;$('#masterStatus').textContent=account?`API key recognized · ${account.firstname||'Account'} · ${s.response.subscription?.plan||'Plan'} plan`:'Server can reach API-Football.';$('#apiState').textContent='API READY'}catch(e){$('#masterStatus').textContent=e.message;$('#apiState').textContent='SET API KEY'}}
+function loadProfile(){const p=state.profile;$('#profileName').textContent=p.name||'JURU Member';$('#profileEmail').textContent=p.email||'Local profile · this device';$('#nameInput').value=p.name||'';$('#emailInput').value=p.email||''}
+$('#saveProfile').addEventListener('click',()=>{state.profile={name:$('#nameInput').value.trim()||'JURU Member',email:$('#emailInput').value.trim()};localStorage.setItem('juruProfile',JSON.stringify(state.profile));loadProfile();toast('Profile saved on this device')});
+$('#profileOpen').addEventListener('click',()=>page('profile'));
+$('#refreshBtn').addEventListener('click',()=>{loadFixtures();loadLive();toast('Refreshing football data…')});
+$('#matchSearch').addEventListener('input',renderDaily);
+$$('.segmented button').forEach(b=>b.addEventListener('click',()=>{$$('.segmented button').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');state.filter=b.dataset.filter;renderDaily()}));
+$('#analyseBtn').addEventListener('click',analyse);$('#standingsBtn').addEventListener('click',standings);
+$('#clearPicks').addEventListener('click',()=>{state.picks=[];localStorage.setItem('juruPicks','[]');renderPicks();toast('Saved selections cleared')});
+$('#testApi').addEventListener('click',checkStatus);
+async function postJSON(url,data){const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});const j=await r.json();if(!r.ok)throw new Error(j.error||'Request failed');return j}
+async function loadAdminMembers(){const r=await fetch('/admin/members');const j=await r.json();if(!r.ok)throw new Error(j.error||'Could not load members');const box=$('#memberQueue');if(!j.members.length){box.innerHTML='<div class="empty">No registrations yet.</div>';return}box.innerHTML=j.members.sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt)).map(m=>`<article class="member-card"><div class="member-card-top"><div><b>${esc(m.name)}</b><small>${esc(m.email)}</small></div><span class="member-status ${esc(m.status)}">${esc(m.status.toUpperCase())}</span></div><small>Registered: ${new Date(m.createdAt).toLocaleString()}</small>${m.validationUntil?`<small>Valid until: ${new Date(m.validationUntil).toLocaleString()}</small>`:''}<div class="member-actions"><select data-days="${m.id}" aria-label="Membership duration"><option value="1">24 hours</option><option value="7">7 days</option><option value="30" selected>30 days</option><option value="90">90 days</option><option value="180">6 months</option><option value="365">1 year</option></select><button class="btn bright small" data-approve="${m.id}">Approve</button><button class="btn danger small" data-reject="${m.id}">Reject</button>${m.status==='approved'?`<button class="btn ghost small" data-revoke="${m.id}">Suspend</button>`:''}</div></article>`).join('')}
+$('#adminUnlock').addEventListener('click',async()=>{try{await postJSON('/admin/login',{password:$('#adminPin').value});$('#adminMessage').textContent='Admin login successful.';$('#adminDashboard').hidden=false;await loadAdminMembers()}catch(e){$('#adminMessage').textContent=e.message}});
+$('#reloadMembers').addEventListener('click',()=>loadAdminMembers().catch(e=>toast(e.message)));
+$('#memberQueue').addEventListener('click',async e=>{const b=e.target.closest('[data-approve],[data-reject],[data-revoke]');if(!b)return;const id=b.dataset.approve||b.dataset.reject||b.dataset.revoke;const action=b.dataset.approve?'approve':b.dataset.reject?'reject':'revoke';const days=Number(document.querySelector(`[data-days="${id}"]`)?.value||30);try{await postJSON('/admin/member-action',{id,action,days});toast(action==='approve'?'Member approved successfully':'Member status updated');await loadAdminMembers()}catch(err){toast(err.message)}});
+$('#registerBtn').addEventListener('click',async()=>{const msg=$('#registerMessage');msg.textContent='Submitting…';try{const j=await postJSON('/auth/register',{name:$('#regName').value,email:$('#regEmail').value,password:$('#regPassword').value});msg.textContent=j.message;$('#regPassword').value=''}catch(e){msg.textContent=e.message}});
+$('#memberLoginBtn').addEventListener('click',async()=>{const msg=$('#memberMessage');msg.textContent='Signing in…';try{const j=await postJSON('/auth/login',{email:$('#loginEmail').value,password:$('#loginPassword').value});msg.textContent=`Welcome ${j.member.name}. Membership active until ${new Date(j.member.validationUntil).toLocaleDateString()}.`; }catch(e){msg.textContent=e.message}});
+$('#memberLogout').addEventListener('click',async()=>{await postJSON('/auth/logout',{});$('#memberMessage').textContent='You are signed out.'});
+fetch('/api/public-config').then(r=>r.json()).then(c=>{if(c.adminWhatsApp){const n=c.adminWhatsApp.replace(/\D/g,'');$('#contactAdmin').href=`https://wa.me/${n}?text=${encodeURIComponent('Hello JURU VVIP admin, I need help with my membership.')}`}else{$('#contactAdmin').textContent='Admin WhatsApp number not configured';$('#contactAdmin').removeAttribute('href')}}).catch(()=>{});
+$('#todayDate').textContent=new Date().toLocaleDateString(undefined,{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+(async()=>{loadProfile();$('#statSaved').textContent=state.picks.length;await checkStatus();await Promise.all([loadFixtures(),loadLive(),loadTomorrow()]);setInterval(loadLive,60000)})();
+
+</script>
+</body></html>
